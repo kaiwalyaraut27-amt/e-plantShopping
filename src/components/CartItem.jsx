@@ -10,7 +10,13 @@ const CartItem = () => {
   };
 
   const decrease = (id) => {
-    setItems(items.map(i => i.id === id && i.qty > 1 ? { ...i, qty: i.qty - 1 } : i));
+    setItems(items.map(i => {
+      if (i.id === id) {
+        if (i.qty === 1) return null;
+        return { ...i, qty: i.qty - 1 };
+      }
+      return i;
+    }).filter(Boolean));
   };
 
   const remove = (id) => {
@@ -25,6 +31,7 @@ const CartItem = () => {
 
       {items.map(i => (
         <div key={i.id}>
+          <img src="https://via.placeholder.com/80" alt="" />
           <h4>{i.name}</h4>
           <p>${i.price}</p>
 
@@ -40,8 +47,10 @@ const CartItem = () => {
 
       <h3>Grand Total: ${total}</h3>
 
-      <button onClick={() => alert("Coming Soon!")}>Checkout</button>
-      <button>Continue Shopping</button>
+      <button onClick={() => alert("Coming Soon")}>Checkout</button>
+      <button onClick={() => window.location.reload()}>
+        Continue Shopping
+      </button>
     </div>
   );
 };
